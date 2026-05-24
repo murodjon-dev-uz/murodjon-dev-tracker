@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Murodjon Dev Tracker — fullstack таск-менеджер (PHP, MySQL, Vanilla JS)" />
+  <title>Murodjon Dev Tracker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>✅</text></svg>" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script defer src="/js/api.js"></script>
+  <script defer src="/js/ui.js"></script>
+  <script defer src="/js/components.js"></script>
+  <script defer src="/js/app.js"></script>
+</head>
+<body>
+
+  <!-- ============================ AUTH ============================ -->
+  <section class="auth" id="view-auth" hidden>
+    <div class="auth__card">
+      <div class="auth__brand">
+        <span class="auth__logo">✅</span>
+        <h1 class="auth__title">Murodjon Dev Tracker</h1>
+        <p class="auth__subtitle">Управляй задачами: статусы, приоритеты, дедлайны и прогресс.</p>
+      </div>
+
+      <div class="tabs" id="auth-tabs">
+        <button class="tab tab--active" data-tab="login" type="button">Вход</button>
+        <button class="tab" data-tab="register" type="button">Регистрация</button>
+      </div>
+
+      <form class="form" id="login-form" novalidate>
+        <div class="field">
+          <label class="field__label" for="l-login">Логин или e-mail</label>
+          <input class="field__input" id="l-login" name="login" autocomplete="username" />
+          <span class="field__error" data-error="login"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="l-password">Пароль</label>
+          <input class="field__input" id="l-password" name="password" type="password" autocomplete="current-password" />
+          <span class="field__error" data-error="password"></span>
+        </div>
+        <button class="btn btn--primary btn--block" type="submit">Войти</button>
+        <p class="auth__hint">Демо-доступ: <b>demo</b> / <b>demo1234</b></p>
+      </form>
+
+      <form class="form" id="register-form" novalidate hidden>
+        <div class="field">
+          <label class="field__label" for="r-username">Имя пользователя</label>
+          <input class="field__input" id="r-username" name="username" autocomplete="username" />
+          <span class="field__error" data-error="username"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="r-email">E-mail</label>
+          <input class="field__input" id="r-email" name="email" type="email" autocomplete="email" />
+          <span class="field__error" data-error="email"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="r-password">Пароль</label>
+          <input class="field__input" id="r-password" name="password" type="password" autocomplete="new-password" />
+          <span class="field__error" data-error="password"></span>
+        </div>
+        <button class="btn btn--primary btn--block" type="submit">Создать аккаунт</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================ APP ============================ -->
+  <div class="app" id="view-app" hidden>
+    <header class="topbar">
+      <div class="topbar__brand">
+        <span class="topbar__logo">✅</span>
+        <span class="topbar__name">Dev Tracker</span>
+      </div>
+      <div class="topbar__search">
+        <input class="topbar__search-input" id="search" type="search" placeholder="Поиск по задачам…" />
+      </div>
+      <div class="topbar__user">
+        <span class="topbar__avatar" aria-hidden="true">👤</span>
+        <span class="topbar__username" id="user-name">—</span>
+        <button class="btn btn--ghost btn--sm" id="logout" type="button">Выйти</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <section class="sidebar__block">
+          <h2 class="sidebar__heading">Обзор</h2>
+          <div class="stats" id="stats"></div>
+        </section>
+
+        <section class="sidebar__block">
+          <h2 class="sidebar__heading">Фильтры</h2>
+          <div class="pill-group" id="status-filter">
+            <button class="pill pill--active" data-status="" type="button">Все</button>
+            <button class="pill" data-status="new" type="button">Новые</button>
+            <button class="pill" data-status="in_progress" type="button">В работе</button>
+            <button class="pill" data-status="completed" type="button">Готово</button>
+          </div>
+          <label class="field__label" for="filter-priority">Приоритет</label>
+          <select class="field__input" id="filter-priority">
+            <option value="">Любой</option>
+            <option value="high">Высокий</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий</option>
+          </select>
+        </section>
+
+        <section class="sidebar__block">
+          <div class="sidebar__heading-row">
+            <h2 class="sidebar__heading">Категории</h2>
+            <button class="icon-btn" id="add-category" type="button" aria-label="Добавить категорию" title="Добавить категорию">＋</button>
+          </div>
+          <ul class="category-list" id="category-list"></ul>
+        </section>
+      </aside>
+
+      <main class="main">
+        <div class="main__head">
+          <h1 class="main__title">Мои задачи</h1>
+          <button class="btn btn--primary" id="add-task" type="button">＋ Новая задача</button>
+        </div>
+        <div class="board" id="board"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-root" id="toast-root" aria-live="polite"></div>
+  <div id="modal-root" hidden></div>
+
+</body>
+</html>

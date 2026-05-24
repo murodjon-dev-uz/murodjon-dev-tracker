@@ -1,0 +1,16 @@
+# Local environment — never commit real credentials
+.env
+
+# Dependencies (none required for the MVP, but reserved)
+/vendor/
+
+# Logs & runtime
+*.log
+/tmp/
+
+# Tooling / editor noise
+.claude/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

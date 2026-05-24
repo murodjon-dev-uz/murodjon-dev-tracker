@@ -1,0 +1,17 @@
+# Apache config for the public web root.
+# (Ignored by PHP's built-in server, which is used in development.)
+
+DirectoryIndex index.html
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set Referrer-Policy "same-origin"
+</IfModule>
+
+# Defense in depth: never serve dotfiles (.env, .git, …) even if the document
+# root is ever misconfigured to the project root instead of /public.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Lazy, single PDO connection per request.
+ *
+ * Every query in the app goes through prepared statements obtained from this
+ * connection — there is no string interpolation of user input into SQL,
+ * which is what protects the app from SQL injection.
+ */
+final class Database
+{
+    private static ?PDO $pdo = null;
+
+    public static function conn(): PDO
+    {
+        if (self::$pdo instanceof PDO) {
+            return self::$pdo;
+        }
+
+        $host = env('DB_HOST', '127.0.0.1');
+        $port = env('DB_PORT', '3306');
+        $name = env('DB_NAME', 'tracker_db');
+        $user = env('DB_USER', 'tracker_app');
+        $pass = env('DB_PASS', '');
+
+        $dsn = "mysql:host={$host};port={$port};dbname={$name};charset=utf8mb4";
+
+        self::$pdo = new PDO($dsn, $user, $pass, [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            // Real prepared statements (no client-side emulation).
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ]);
+
+        return self::$pdo;
+    }
+
+    private function __construct()
+    {
+    }
+}
